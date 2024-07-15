@@ -156,6 +156,9 @@ fun MarkdownText(
                 applyLineHeight(style)
                 applyTextDecoration(style)
 
+                minimumHeight = measuredHeight
+                minimumWidth = measuredWidth
+
                 with(style) {
                     applyTextAlign(textAlign)
                     fontStyle?.let { applyFontStyle(it) }
