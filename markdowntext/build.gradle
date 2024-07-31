@@ -46,12 +46,14 @@ dependencies {
 
     implementation "io.noties.markwon:core:$markwon_version"
     implementation "io.noties.markwon:ext-strikethrough:$markwon_version"
-    implementation "io.noties.markwon:ext-tables:$markwon_version"
+//    implementation "io.noties.markwon:ext-tables:$markwon_version"
     implementation "io.noties.markwon:html:$markwon_version"
     implementation "io.noties.markwon:linkify:$markwon_version"
 
     // TODO: Change it after migrating markwon project
-    implementation "com.github.jeziellago:Markwon:58aa5aba6a"
+//    implementation "com.github.jeziellago:Markwon:58aa5aba6a"
+//    implementation "com.github.zjn0505:Markwon:d4928e5378"
+    implementation "com.github.zjn0505:Markwon:ca91f2068333ded3ba67a5de550bcb9df95ea4c3"
 
     api("io.coil-kt:coil:2.6.0")
 

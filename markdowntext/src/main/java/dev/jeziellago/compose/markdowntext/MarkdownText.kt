@@ -4,10 +4,8 @@ import android.content.Context
 import android.os.Build
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
-import android.widget.TextView
 import androidx.annotation.FontRes
 import androidx.annotation.IdRes
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -25,6 +23,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.widget.TextViewCompat
 import coil.ImageLoader
 import io.noties.markwon.Markwon
+import io.noties.markwon.ext.tables.TablePlugin
+import java.util.ArrayList
 
 @Deprecated(message = "The parameters `color`, `fontSize`, `textAlign` and `lineHeight` must be part of TextStyle.")
 @Composable
@@ -121,6 +121,12 @@ fun MarkdownText(
         modifier = Modifier.clickable(enabled = onClick != null) { onClick?.let { it() } }.then(modifier),
         factory = { factoryContext ->
 
+            if (viewId != null) {
+                markdownRender.plugins.firstOrNull { it is TablePlugin }?.apply {
+                    (this as TablePlugin).setTag(ArrayList<Int>(), viewId)
+                }
+            }
+
             val linkTextColor = linkColor.takeOrElse { style.color.takeOrElse { defaultColor } }
 
             CustomTextView(factoryContext).apply {
@@ -166,6 +172,20 @@ fun MarkdownText(
                     fontFamily?.let { applyFontFamily(it) }
                 }
             }
+            if (viewId != null) {
+                markdownRender.plugins.firstOrNull { it is TablePlugin }?.apply {
+                    textView.getTag(viewId)?.let { heights ->
+                        if (heights != null && heights is ArrayList<*>) {
+                            (this as TablePlugin).setTag(heights as ArrayList<Int>, viewId)
+                        } else {
+                            (this as TablePlugin).setTag(ArrayList<Int>(), viewId)
+                        }
+                    }
+
+                }
+            }
+
+
             markdownRender.setMarkdown(textView, markdown)
             if (disableLinkMovementMethod) {
                 textView.movementMethod = null
